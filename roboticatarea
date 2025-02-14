@@ -1,0 +1,29 @@
+clc; clear; close all;
+% Importar la Robotics Toolbox
+addpath('path_a_robotics_toolbox');
+
+% Longitudes de los eslabones
+l1 = 5;
+l2 = 3;
+
+% Definir el modelo del robot con RTB
+L(1) = Link('d', 0, 'a', l1, 'alpha', 0); % Primer eslabón
+L(2) = Link('d', 0, 'a', l2, 'alpha', 0); % Segundo eslabón
+
+robot = SerialLink(L, 'name', 'Brazo 2DOF');
+
+% Definir los ángulos (en radianes)
+q1 = deg2rad(45.1); % Convertir a radianes
+q2 = deg2rad(30);
+
+% Calcular la cinemática directa
+T = robot.fkine([q1 q2]); % Matriz de transformación final
+
+% Graficar el brazo
+figure;
+robot.plot([q1 q2], 'nojoits', 'noname');
+title('Simulación de Brazo Robótico');
+xlabel('X');
+ylabel('Y');
+grid on;
+saveas(gcf, 'brazo_robotico.png');
